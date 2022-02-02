@@ -2252,7 +2252,7 @@ the \rtent{alt\_identifier} column.
 \label{table_stc_spatial}
 
 Since VODataService 1.2, registry records can represent their resource's
-spatial coverage using MOCs \citep{2019ivoa.spec.1007F}.  The
+spatial coverage using spatial MOCs \citep{2019ivoa.spec.1007F}.  The
 \rtent{stc\_spatial} table is a direct reflection of this metadata:
 
 % GENERATED: maketable.sh rr.stc_spatial
@@ -2287,12 +2287,16 @@ The reference frame coverage is written in. This is currently reserved and fixed
 
 % /GENERATED
 
+The \rtent{ivoid} column should be an explicit foreign key into
+\rtent{resource}.
+
 This specification makes no guarantees on whether or not
 \rtent{coverage} is retrievable (i.e., can be used in ADQL select
 clauses) or in what form it will be returned; this is deferred to a
 future DALI version specifying the moc xtype.  Implementations MUST,
 however, evaluate the ADQL CONTAINS and INTERSECTS predicates with
-coverage as one argument and ADQL CIRCLEs and POLYGONs as the other.
+coverage as one argument and ADQL CIRCLEs and POLYGONs as the other, and
+it must support CONTAINS with an ADQL POINT in the first argument.
 There are no expectations that the predicates are computed exactly, but
 implementations should strive to limit the number of false positives;
 clients are advised that on services supporting MOC literals, it is
@@ -2338,12 +2342,16 @@ Upper limit of a time interval covered by the resource.\\
 
 % /GENERATED
 
+The \rtent{ivoid} column should be an explicit foreign key into
+\rtent{resource}.
+
 Clients are advised that the \verb|ivo_interval_overlaps| user defined
 function is available to conveniently compare a user-specified interval
 of interest to \rtent{time\_start} $\cdots$ \rtent{time\_end}.
 
-The \rtent{ivoid} column should be an explicit foreign key into
-\rtent{resource}.
+The rows for \rtent{time\_start} and \rtent{time\_end} in  
+\tapent{TAP\_SCHEMA.columns} MUST have \texttt{d} in their
+\tapent{unit} column.
 
 
 \subsection{The stc\_spectral Table}
@@ -2385,12 +2393,17 @@ Upper limit of an energy interval covered by the resource (for the solar system 
 
 % /GENERATED
 
+The \rtent{ivoid} column should be an explicit foreign key into
+\rtent{resource}.
+
 Clients are advised that the \verb|ivo_interval_overlaps| user defined
 function is available to conveniently compare a user-specified intervals
 of interest to \rtent{spectral\_start} $\cdots$ \rtent{spectral\_end}.
 
-The \rtent{ivoid} column should be an explicit foreign key into
-\rtent{resource}.
+The rows for \rtent{spectral\_start} and \rtent{spectral\_end} in  
+\tapent{TAP\_SCHEMA.columns} MUST have \texttt{J} in their
+\tapent{unit} column.
+
 
 \section{RegTAP Requirements on TAP services}
 
@@ -2425,8 +2438,6 @@ services MUST implement common table expressions as per the WITH feature
 in \nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-common-table}.
 \end{bigdescription}
 
-
-\section{ADQL User Defined Functions}
 
 \subsection{User Defined Functions required for RegTAP}
 \label{adqludf}
