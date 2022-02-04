@@ -2877,9 +2877,56 @@ WHERE
 \end{lstlisting}
 
 
-% HTML section ends
+\subsection{Constraints on Space, Time, and Spectrum}
 
-% section sample\_queries
+\textbf{Problem:} Give me resources that cover M 101 ($\alpha=210.80$,
+$\delta=54.35$, Diameter about $0.3^\circ$) in the mid-infrared around
+$5\,\mu\textrm{m}$ in August 2010.
+
+Without further database support, clients need to manually convert the
+spectral coordinate to energy ($hc/\lambda \approx 3.97\times
+10^{-20}\,\textrm{J}$) and time (August 1st, 2010 starts MJD 55409.0) to
+the quantities RegTAP expects.
+
+This would yield a query like (the explicit MOC conversion is a common
+device to speed the query up; without it, the database would convert the
+circle once for each coverage, to the respective order):
+
+%CHECK_HERE
+\begin{lstlisting}[language=SQL,flexiblecolumns=true]
+SELECT ivoid
+FROM rr.stc_spatial
+  NATURAL JOIN rr.stc_spectral
+  NATURAL JOIN rr.stc_temporal
+WHERE 
+  1=CONTAINS(MOC(8, CIRCLE(210.80, 54.35, 0.3)), coverage)
+  AND 1=ivo_interval_overlaps(time_start, time_end, 55409, 55440)
+  AND 3.97e-20 between spectral_start and spectral_end
+\end{lstlisting}
+
+In particular when more complex geometries are desired, clients will
+want to pass in MOCs directly.  Conversely, RegTAP services may provide
+the additional user-defined functions that allow specifying temporal and
+spectral constraints in different, perhaps human-friendlier ways.  For
+instance, once support for the relevant UDFs is established using the
+TAP capabilities,\todo{I'll propose both UDFs for the catalogue, in
+which case that would become ivo\_whatever} the above query
+could also be written as (the MOC given is the circle above at order 8):
+
+%CHECK_HERE
+\begin{lstlisting}[language=SQL,flexiblecolumns=true]
+SELECT ivoid
+FROM rr.stc_spatial
+  NATURAL JOIN rr.stc_spectral
+  NATURAL JOIN rr.stc_temporal
+WHERE 
+  1=CONTAINS(MOC('8/182947 182950 182952-182953 182955-182956 8/'), coverage)
+  AND 1=ivo_interval_overlaps(
+    time_start, time_end, 
+    gavo_to_mjd('2010-08-01'), gavo_to_mjd('2010-08-31'))
+  AND gavo_specconv(5e-6, 'm', 'J') between spectral_start and spectral_end
+\end{lstlisting}
+
 
 \appendix
 
