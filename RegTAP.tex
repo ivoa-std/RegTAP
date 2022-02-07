@@ -14,7 +14,7 @@
 \definecolor{rtcolor}{rgb}{0.15,0.4,0.3}
 \definecolor{tapcolor}{rgb}{0.4,0.1,0.1}
 
-\newcommand{\rtent}[1]{\texttt{\color{rtcolor} #1}}
+\def\rtent{\begingroup\catcode\_[1]{\texttt{\color{rtcolor} #1}}
 \newcommand{\tapent}[1]{\texttt{\color{tapcolor} #1}}
 
 
@@ -3149,6 +3149,10 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 \begin{itemize}
 \item \rtent{table\_name} is no longer case-folded (this is also RegTAP
 1.1 Erratum 1).
+\item Adding \rtent{stc\_spatial}, \rtent{stc\_temporal}, and
+\rtent{stc\_spectral} tables and a sample query illustrating their use.
+\item Requiring ADQL COALESCE and WITH constructs.
+\item Including VODataService 1.2 resource types.
 \end{itemize}
 
 \subsection{Changes from REC-1.0}
