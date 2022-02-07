@@ -27,12 +27,13 @@ AUX_FILES = makeutypes.xslt
 all: $(DOCNAME).pdf
 
 schema.pdf: schema.psfig
-	ps2pdf -dEPSCrop $< $@
+	ps2pdf -dALLOWPSTRANSPARENCY -dEPSCrop $< $@
 
 %.psfig: %.texfig
 	etex $<
 	dvips $*
-	ps2epsi $*.ps $*.psfig
+	ps2eps -f $*.ps
+	mv  $*.eps $*.psfig
 	rm $*.ps $*.dvi $*.log
 
 AUTHOR_EMAIL=msdemlei@ari.uni-heidelberg.de

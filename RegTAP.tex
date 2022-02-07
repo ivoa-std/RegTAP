@@ -15,17 +15,17 @@
 \definecolor{tapcolor}{rgb}{0.4,0.1,0.1}
 
 
-\makeatletter
 \iftth
 \def\rtent#1{\texttt{\color{rtcolor}\verb|#1|}}
 \else
+\makeatletter
 \def\makeunderscoreletter{\catcode`\_=12}
 \def\makeunderscoresubscript{\catcode`\_=8}
 \def\rtent{\makeunderscoreletter\relax\rt@nt}
 \def\rt@nt#1{\texttt{\color{rtcolor} #1}\makeunderscoresubscript}
+\makeatother
 \fi
 \newcommand{\tapent}[1]{\texttt{\color{tapcolor} #1}}
-\makeatother
 
 \ivoagroup{Registry}
 
@@ -747,7 +747,7 @@ key-like relationships.}
 \textbf{Name and UType}&\textbf{Description}\\
 \sptablerule
 rr.alt\_identifier\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/(curation/creator/|)altIdentifier}&
+\makebox[0pt][l]{\scriptsize\texttt{xpath:/(curation/creator/|)altIdentifier}}&
  An alternate identifier associated with this record.\\
 rr.capability\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/capability/}&
