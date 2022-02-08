@@ -186,7 +186,7 @@ model for resource records via its schema definition.  This document
 refers to concepts laid down there via xpaths \citep{std:XPATH}.  RegTAP
 1.1 incorporates the concepts from VOResource 1.1 but can represent
 VOResource 1.0 instances (within the limits laid out below) as well.
-\item[VODataService, v1.1 \citep{2010ivoa.spec.1202P}] VODataService 
+\item[VODataService, v1.2 \citep{2021ivoa.spec.1102D}] VODataService 
 de\-scribes several concepts and resource types extending 
 VOResource's data model, including
 tablesets, data services and data
@@ -462,7 +462,7 @@ of these vocabularies are only available as a Working Draft
 \citep{wd:voc2}; we therefore cannot require the use of these vocabulary
 representations at this point.
 
-For RegTAP 1.1, these vocabulary resources are relevant because the
+For RegTAP, these vocabulary resources are relevant because the
 VOResource relationship types and date roles contain some deprecated
 terms kept for compatibility with VOResource 1.0, together with guidance
 what to use instead.  In order to simplify the usage of
@@ -515,7 +515,7 @@ versions.  For consistency, and because there should not really be
 discovery use cases based on minor versions of XML schemas, all
 namespace URIs for the same major version of a standard have the same
 canonical prefix -- e.g., both VODataService
-1.0 and VODataService 1.1 use \texttt{vs:}.  
+1.1 and VODataService 1.2 use \texttt{vs:}.  
 
 For reference, here is
 a table of XML namespace URIs and prefixes for schemata in common use at
@@ -634,15 +634,15 @@ the stylesheet would need to be amended.
 
 The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
-data model \texttt{Registry 1.1} with the IVOID
-$$\texttt{ivo://ivoa.net/std/RegTAP\#1.1}$$ in the service's
+data model \texttt{Registry 1.2} with the IVOID
+$$\texttt{ivo://ivoa.net/std/RegTAP\#1.2}$$ in the service's
 capabilities as governed by TAPRegExt \citep{2012ivoa.spec.0827D}.  Technically, this
 entails adding
 
 
 \begin{verbatim}
-<dataModel ivo-id="ivo://ivoa.net/std/RegTAP#1.1"
-  >Registry 1.1</dataModel>
+<dataModel ivo-id="ivo://ivoa.net/std/RegTAP#1.2"
+  >Registry 1.2</dataModel>
 \end{verbatim}
 
 as a child of the capability element with the type
@@ -683,7 +683,7 @@ In both \tapent{TAP\_SCHEMA} and the VODataService tableset, the
 \tapent{rr} schema
 MUST be associated with a \tapent{utype} matching the data model
 identifier given in sect.~\ref{registration}, i.e.,
-$$\texttt{ivo://ivoa.net/std/RegTAP\#1.1}.$$
+$$\texttt{ivo://ivoa.net/std/RegTAP\#1.2}.$$
 
 In the following table descriptions, the names of tables
 (cf.~Table \ref{table:dm}) and columns
@@ -809,7 +809,7 @@ Validation levels for resources and capabilities.\\
 
 \sptablerule
 \end{tabular}\hss}
-\caption{The tables making up the TAP data model \texttt{Registry 1.1}}
+\caption{The tables making up the TAP data model \texttt{Registry 1.2}}
 \label{table:dm}
 \end{table}
 
@@ -1633,7 +1633,7 @@ Apart from an identifier for an authentication method -- usually taken
 from the SSO document \citet{2017ivoa.spec.0524T} --, no actual content
 has been specified so far for these elements.  Also, there are as of now
 no actual discovery cases employing this information except ``filter out
-services requiring authentication''.  Hence, RegTAP 1.1 does not attempt
+services requiring authentication''.  Hence, RegTAP 1.2 does not attempt
 to map \vorent{securityMethod} except through the
 \rtent{authenticated_only} column which is required to be 0 when there
 is no \vorent{securityMethod} or at least one \vorent{securityMethod}
@@ -1642,7 +1642,7 @@ interface, 1 otherwise.
 
 Clients not prepared to authenticate to services should always include a
 \verb|authenticated_only=0| condition when retrieving access URLs
-from RegTAP 1.1 services, as it is conceivable that a future VO will
+from RegTAP 1.2 services, as it is conceivable that a future VO will
 contain many services requiring authentication and users should not have
 to try out which of them they can actually use.
 
@@ -2427,7 +2427,7 @@ User Defined Functions (UDFs).
 \subsection{ADQL Optional Features requried for RegTAP}
 
 TAP Servers implementing the 
-\texttt{ivo://ivoa.net/std/RegTAP\#1.1} data model MUST implement the
+\texttt{ivo://ivoa.net/std/RegTAP\#1.2} data model MUST implement the
 following optional features defined in ADQL 2.1 \citep{NOT-A-REC-YET}:
 
 \begin{bigdescription}
@@ -2452,7 +2452,7 @@ in \nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-common-table}.
 \label{adqludf}
 
 TAP Servers implementing the 
-\texttt{ivo://ivoa.net/std/RegTAP\#1.1} data model MUST
+\texttt{ivo://ivoa.net/std/RegTAP\#1.2} data model MUST
 implement the following User Defined Functions in their ADQL language,
 given here
 with signatures written as recommended in TAPRegExt \citep{2012ivoa.spec.0827D}:
@@ -2543,7 +2543,7 @@ found from
 \rtent{rr.interface}, this requires
 a (natural) join.
 
-Clients communicating with a RegTAP 1.1 service should request the new
+Clients communicating with a RegTAP 1.1 or later service should request the new
 \rtent{authenticated_only} column.  If this is 1, the service
 requires some sort of authentication and should only presented to users
 if a client has the necessary infrastructure for the authentication
@@ -2756,7 +2756,7 @@ and
 endpoints.  As clients should not usally be concerned with minor
 versions of protocols unless  they rely on additions made in later
 versions, this query will return endpoints supporting ``version 1'' rather
-than exactly version 1.1.
+than exactly version 1.2.
 
 
 %CHECK_HERE
